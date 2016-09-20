@@ -17,9 +17,9 @@ namespace UsI9Pdf
 
         static public string Create(string output_pdf, System.Drawing.Image employee_signature, System.Drawing.Image preparer_signature, System.Drawing.Image employer_signature, string user_password, string owner_password)
         {
-            string f = Path.GetDirectoryName(output_pdf) + "\\out1.pdf";
-
             PdfReader.unethicalreading = true;
+
+            string f = Path.GetDirectoryName(output_pdf) + "\\out1.pdf";
             PdfReader pr = new PdfReader(OriginPdf);
             Document d = new Document(pr.GetPageSizeWithRotation(7));
             PdfCopy pcp = new PdfCopy(d, new System.IO.FileStream(f, System.IO.FileMode.Create));
