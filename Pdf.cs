@@ -22,12 +22,7 @@ namespace UsI9Pdf
         static public string OriginPdf = Regex.Replace(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().GetName(false).CodeBase) + "\\i-9.pdf", @"file:\\", "", RegexOptions.IgnoreCase);
 
         static public System.Drawing.Size SignatureMaxSize = new System.Drawing.Size(200, 40);
-
-        //public class Fields2Value
-        //{
-
-        //}
-
+        
         public static Dictionary<string, string> GetEmptyFields2Value()
         {
             return new Dictionary<string, string> {
@@ -116,59 +111,39 @@ namespace UsI9Pdf
             PdfReader.unethicalreading = true;
 
             PdfReader pr;
-            string f = OriginPdf;
 
-            pr = new PdfReader(f);
-            f = Path.GetDirectoryName(output_pdf) + "\\out1.pdf";
-           // MemoryStream ms = new MemoryStream();
+            pr = new PdfReader(OriginPdf);
+            MemoryStream ms = new MemoryStream();
             pr.RemoveUsageRights();
             pr.SelectPages("7,8");
-            PdfStamper ps = new PdfStamper(pr, new FileStream(f, FileMode.Create));
+            PdfStamper ps = new PdfStamper(pr, ms);
+
             //String[] values = ps.AcroFields.GetAppearanceStates("form1[0].#subform[6].Checkbox1a[0]");
             //string fs = "";
             //foreach (KeyValuePair<string, AcroFields.Item> kvp in ps.AcroFields.Fields)
             //    //fs += "\n{\"" + kvp.Key + "\", \"\"},";
             //    fs += "\n{\"\", \"" + kvp.Key + "\"},";
+
             foreach (KeyValuePair<string, string>kvp in fields2value)
                 set_field(ps.AcroFields, kvp.Key, kvp.Value);
             ps.FormFlattening = true;
+
+            var pcb = ps.GetOverContent(1);
+            add_image(pcb, employee_signature, new System.Drawing.Point(140, 213));
+            add_image(pcb, preparer_signature, new System.Drawing.Point(180, 120));
+            pcb = ps.GetOverContent(2);
+            add_image(pcb, employer_signature, new System.Drawing.Point(60, 256));
+            add_image(pcb, employer_signature, new System.Drawing.Point(65, 30));
             ps.Close();
             pr.Close();
-
-            //Document d = new Document(pr.GetPageSizeWithRotation(7));
-            //PdfCopy pc = new PdfCopy(d, new FileStream(f, FileMode.Create));
-            //pc.SetMergeFields();
-            ////pc.Open();
-            //d.Open();
-            //pc.AddPage(pc.GetImportedPage(pr, 7));
-            //pc.AddPage(pc.GetImportedPage(pr, 8));
-            //// pc.CopyDocumentFields(pr);
-            ////ps.Close();
-            ////pc.Close();
-            //d.Close();
-            //pr.Close();
-
-            //pr = new PdfReader(f);
-            //f = Path.GetDirectoryName(output_pdf) + "\\out2.pdf";
-            //PdfStamper ps = new PdfStamper(pr, new FileStream(f, FileMode.Create));
-            //AcroFields fields = ps.AcroFields;
-            //int g = fields.Fields.Count;
-            //var pcb = ps.GetOverContent(1);
-            //add_image(pcb, employee_signature, new System.Drawing.Point(140, 213));
-            //add_image(pcb, preparer_signature, new System.Drawing.Point(180, 120));
-            //pcb = ps.GetOverContent(2);
-            //add_image(pcb, employer_signature, new System.Drawing.Point(60, 256));
-            //add_image(pcb, employer_signature, new System.Drawing.Point(65, 30));
-            //pr.Close();
-
-            pr = new PdfReader(f);
-            f = output_pdf;
-            using (Stream output = new FileStream(f, FileMode.Create, FileAccess.Write, FileShare.None))
+            
+            pr = new PdfReader(new MemoryStream(ms.GetBuffer()));
+            using (Stream output = new FileStream(output_pdf, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 PdfEncryptor.Encrypt(pr, output, true, user_password, owner_password, PdfWriter.ALLOW_SCREENREADERS);
-                pr.Close();
             }
-            return f;
+            pr.Close();
+            return output_pdf;
         }
 
         static void set_field(AcroFields form, string field_key, string value)
