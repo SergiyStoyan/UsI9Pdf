@@ -37,10 +37,10 @@ namespace UsI9Pdf
                 {"form1[0].#subform[6].CityOrTown[0]", ""},
                 {"form1[0].#subform[6].State[0]", ""},
                 {"form1[0].#subform[6].DateOfBirth[0]", ""},
-                {"form1[0].#subform[6].EmployeeSignature[0]", ""},
+                //{"form1[0].#subform[6].EmployeeSignature[0]", ""},
                 {"form1[0].#subform[6].DateofSignaturebyEmployee[0]", ""},
                 {"form1[0].#subform[6].DateofSignature[0]", ""},
-                {"form1[0].#subform[6].Signature[0]", ""},
+                //{"form1[0].#subform[6].Signature[0]", ""},
                 {"form1[0].#subform[6].StreetNumberName[1]", ""},
                 {"form1[0].#subform[6].CityOrTown[1]", ""},
                 {"form1[0].#subform[6].LastName[0]", ""},
@@ -61,7 +61,7 @@ namespace UsI9Pdf
                 {"form1[0].#subform[6].ZipCode[0]", ""},
                 {"form1[0].#subform[6].ZipCode[1]", ""},
                 {"form1[0].#subform[6].State_Preparer[0]", ""},
-                {"form1[0].#subform[7].Section3_Signature[0]", ""},
+                //{"form1[0].#subform[7].Section3_Signature[0]", ""},
                 {"form1[0].#subform[7].EmployeeName[0]", ""},
                 {"form1[0].#subform[7].FirstDayOfWork[0]", ""},
                 {"form1[0].#subform[7].DateofSignature[1]", ""},
@@ -102,7 +102,7 @@ namespace UsI9Pdf
                 {"form1[0].#subform[7].EmployerBusinessOfOrgName[0]", ""},
                 {"form1[0].#subform[7].EmployerOrAuthRepName[0]", ""},
                 {"form1[0].#subform[7].ZipCode[2]", ""},
-                {"form1[0].#subform[7].Signature[1]", ""}
+                //{"form1[0].#subform[7].Signature[1]", ""}
             };
         }
 
