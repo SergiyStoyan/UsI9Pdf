@@ -1,3 +1,8 @@
+//********************************************************************************************
+//Author: Sergey Stoyan
+//        sergey.stoyan@gmail.com
+//        http://www.cliversoft.com
+//********************************************************************************************
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -22,9 +27,9 @@ namespace UsI9Pdf
                 Console.WriteLine("ERROR: " + e.Message);
                 for (; e.InnerException != null; e = e.InnerException)
                     Console.WriteLine("<= " + e.Message);
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
             }
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
         }
     }
 }
