@@ -22,7 +22,12 @@ namespace UsI9Pdf
         static public string OriginPdf = Regex.Replace(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().GetName(false).CodeBase) + "\\i-9.pdf", @"file:\\", "", RegexOptions.IgnoreCase);
 
         static public System.Drawing.Size SignatureMaxSize = new System.Drawing.Size(200, 40);
-        
+
+        //public class Fields2Value
+        //{
+
+        //}
+
         public static Dictionary<string, string> GetEmptyFields2Value()
         {
             return new Dictionary<string, string> {
@@ -115,12 +120,15 @@ namespace UsI9Pdf
 
             pr = new PdfReader(f);
             f = Path.GetDirectoryName(output_pdf) + "\\out1.pdf";
+           // MemoryStream ms = new MemoryStream();
             pr.RemoveUsageRights();
             pr.SelectPages("7,8");
             PdfStamper ps = new PdfStamper(pr, new FileStream(f, FileMode.Create));
+            //String[] values = ps.AcroFields.GetAppearanceStates("form1[0].#subform[6].Checkbox1a[0]");
             //string fs = "";
             //foreach (KeyValuePair<string, AcroFields.Item> kvp in ps.AcroFields.Fields)
-            //    fs += "\n{\"" + kvp.Key + "\", \"\"},";// + " : " + ps.AcroFields.GetTranslatedFieldName(kvp.Key);                
+            //    //fs += "\n{\"" + kvp.Key + "\", \"\"},";
+            //    fs += "\n{\"\", \"" + kvp.Key + "\"},";
             foreach (KeyValuePair<string, string>kvp in fields2value)
                 set_field(ps.AcroFields, kvp.Key, kvp.Value);
             ps.FormFlattening = true;
@@ -139,22 +147,6 @@ namespace UsI9Pdf
             ////pc.Close();
             //d.Close();
             //pr.Close();
-            // MemoryStream stream = new MemoryStream();
-
-
-
-
-            pr = new PdfReader(f);
-            f = Path.GetDirectoryName(output_pdf) + "\\out2.pdf";
-            //PdfCopyForms pcf = new PdfCopyForms(new FileStream(f, FileMode.Create));
-            //pcf.AddDocument(pr);
-            //PdfStamper ps = new PdfStamper(pr, new FileStream(f, FileMode.Create));
-            //AcroFields fields = ps.AcroFields;
-            //int g = fields.Fields.Count;
-            //ps.Close();
-
-
-
 
             //pr = new PdfReader(f);
             //f = Path.GetDirectoryName(output_pdf) + "\\out2.pdf";
@@ -185,19 +177,19 @@ namespace UsI9Pdf
             {
                 case AcroFields.FIELD_TYPE_CHECKBOX:
                 case AcroFields.FIELD_TYPE_RADIOBUTTON:
-                    bool v;
-                    if (bool.TryParse(value, out v))
-                        value = !v ? "false" : "true";
-                    else
-                    {
-                        int i;
-                        if (int.TryParse(value, out i))
-                            value = i == 0 ? "false" : "true";
-                        else
-                            value = string.IsNullOrEmpty(value) ? "false" : "true";
-                    }
-                    form.SetField(field_key, value);
-                    break;
+                    //bool v;
+                    //if (bool.TryParse(value, out v))
+                    //    value = !v ? "false" : "true";
+                    //else
+                    //{
+                    //    int i;
+                    //    if (int.TryParse(value, out i))
+                    //        value = i == 0 ? "false" : "true";
+                    //    else
+                    //        value = string.IsNullOrEmpty(value) ? "false" : "true";
+                    //}
+                    //form.SetField(field_key, value);
+                    //break;
                 case AcroFields.FIELD_TYPE_COMBO:
                 case AcroFields.FIELD_TYPE_LIST:
                 case AcroFields.FIELD_TYPE_NONE:
@@ -206,6 +198,8 @@ namespace UsI9Pdf
                 case AcroFields.FIELD_TYPE_TEXT:
                     form.SetField(field_key, value);
                     break;
+                default:
+                    throw new Exception("Unknown option: " + form.GetFieldType(field_key));
             }
         }
 
