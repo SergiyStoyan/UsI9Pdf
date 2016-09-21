@@ -11,7 +11,7 @@ namespace UsI9Pdf
 {
     class ImageRoutines
     {
-        public static Image GetScaledImage(Image image, Size max_size)
+        public static Image GetScaled(Image image, Size max_size)
         {
             var ratio = Math.Min((double)max_size.Width / image.Width, (double)max_size.Height / image.Height);
             var w = (int)(image.Width * ratio);
