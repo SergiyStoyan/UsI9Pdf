@@ -24,7 +24,10 @@ namespace UsI9Pdf
                     Console.ReadKey();
                     return;
                 }
-                string f = Pdf.Create(Directory.GetCurrentDirectory() + "\\out.pdf", Image.FromFile(ps[1]), Image.FromFile(ps[2]), Image.FromFile(ps[3]), ps[4], ps[5]);
+                System.Collections.Generic.Dictionary<string, string> fs2v = Pdf.GetEmptyFields2Value();
+                fs2v["form1[0].#subform[6].AlienNumber[0]"] = "TEST";
+                fs2v["form1[0].#subform[6].Checkbox1a[0]"] = "1";
+                string f = Pdf.Create(Directory.GetCurrentDirectory() + "\\out.pdf", fs2v, Image.FromFile(ps[1]), Image.FromFile(ps[2]), Image.FromFile(ps[3]), ps[4], ps[5]);
                 Console.WriteLine("Created pdf: " + f);
                 Process.Start(f);
             }
