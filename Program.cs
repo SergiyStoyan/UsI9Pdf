@@ -16,8 +16,14 @@ namespace UsI9Pdf
         {
             try
             {
-                Console.WriteLine("Usage: <employee_signature> <preparer_signature> <employer_signature> <user_password> <owner_password>");
                 string[] ps = Environment.GetCommandLineArgs();
+                if (ps.Length < 6)
+                {
+                    Console.WriteLine("USAGE: #<application.exe> <employee_signature> <preparer_signature> <employer_signature> <user_password> <owner_password>");
+                    Console.WriteLine("Press any key to exit...");
+                    Console.ReadKey();
+                    return;
+                }
                 string f = Pdf.Create(Directory.GetCurrentDirectory() + "\\out.pdf", Image.FromFile(ps[1]), Image.FromFile(ps[2]), Image.FromFile(ps[3]), ps[4], ps[5]);
                 Console.WriteLine("Created pdf: " + f);
                 Process.Start(f);
@@ -29,6 +35,7 @@ namespace UsI9Pdf
                     Console.WriteLine("<= " + e.Message);
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey();
+                return;
             }
         }
     }
