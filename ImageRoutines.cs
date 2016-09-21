@@ -62,8 +62,7 @@ namespace UsI9Pdf
                 {
                     if (height <= h)
                         height = h + 1;
-                    if (y > h)
-                        y = h;
+                    y = h;
                 }
             }
             if (y >= b.Height)
@@ -77,7 +76,6 @@ namespace UsI9Pdf
                 g.CompositingQuality = CompositingQuality.HighQuality;
                 g.DrawImage(image, x, y, width, height);
             }
-            //b.Save("2.png");
             return b;
         }
     }
